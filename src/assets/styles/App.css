@@ -47,14 +47,20 @@ body {
 }
 
 .card {
-  width: 250px;
-  height: 400px;
+  width: 230px;
+  height: 350px;
   box-shadow: var(--main-box-shadow);
   border-radius: 0.3rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card:hover {
   cursor: pointer;
   transform: scale(1.1);
+}
+
+.card-images:hover {
 }
