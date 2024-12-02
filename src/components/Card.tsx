@@ -3,14 +3,37 @@ import DeckOfCards from '../containers/deckOfCards';
 
 export function Card() {
   const [cards, updateCards] = useState([]);
+
+  // Runs one time when a component is mounted
   useEffect(() => {
+    console.log('Mounting');
+
     const fetchCards = async () => {
-      const deckId = await DeckOfCards.getNewDeck();
-      const drawnCards = await DeckOfCards.drawCards(deckId);
+      DeckOfCards.deckId = await DeckOfCards.getNewDeck();
+      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
+      console.log(drawnCards);
       updateCards(drawnCards);
     };
     fetchCards();
-    console.log(cards);
+  }, []);
+
+  useEffect(() => {
+    const reshuffleCards = async () => {
+      await DeckOfCards.reshuffleCards(DeckOfCards.deckId);
+      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
+      updateCards(drawnCards);
+    };
+
+    const playSound = () => {
+      const audio = document.querySelector('#audio');
+      audio.play();
+    };
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('.card-images') || e.target.matches('.card')) {
+        playSound();
+        reshuffleCards();
+      }
+    });
   }, []);
 
   return (

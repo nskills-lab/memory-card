@@ -3,8 +3,7 @@ import { Board } from './components/Board';
 
 /**
  * Steps:
- * 1. Fetching of cards => done
- * 2. Displaing of cards => done
+
  * 3. Event listener that if  a user clicks, reshuffles the cards and displays them
  * 4. Way to keep track of if a user has in the current game iteration clicked on this card
  * 5. Way to keep the score

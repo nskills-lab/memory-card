@@ -1,6 +1,7 @@
 import { deckOfCardsClient } from '../api/client/deckOfCards';
 
 export default class DeckOfCards {
+  static deckId: string;
   static async getNewDeck() {
     const resource =
       deckOfCardsClient.baseEndpoint() + '/new/shuffle/?deck_count=10';
@@ -22,5 +23,13 @@ export default class DeckOfCards {
     }
 
     return (await res.json()).cards;
+  }
+
+  static async reshuffleCards(deckId: string) {
+    const resource = deckOfCardsClient.baseEndpoint() + `/${deckId}/shuffle/`;
+    const res = await fetch(resource, { mode: 'cors' });
+    if (!res.ok) {
+      throw new Error('HTTP status ' + res.status);
+    }
   }
 }
