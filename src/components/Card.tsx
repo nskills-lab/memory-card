@@ -11,7 +11,6 @@ export function Card() {
     const fetchCards = async () => {
       DeckOfCards.deckId = await DeckOfCards.getNewDeck();
       const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
-      console.log(drawnCards);
       updateCards(drawnCards);
     };
     fetchCards();
@@ -21,6 +20,7 @@ export function Card() {
     const reshuffleCards = async () => {
       await DeckOfCards.reshuffleCards(DeckOfCards.deckId);
       const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
+      console.log(drawnCards);
       updateCards(drawnCards);
     };
 
@@ -28,10 +28,23 @@ export function Card() {
       const audio = document.querySelector('#audio');
       audio.play();
     };
+
     document.addEventListener('click', (e) => {
-      if (e.target.matches('.card-images') || e.target.matches('.card')) {
-        playSound();
+      playSound();
+      if (e.target.matches('.card-front')) {
+        const cardElements = [...document.querySelectorAll('.card')];
+        cardElements.forEach((card) => {
+          const innerCard = card.querySelector('.card-inner');
+          innerCard.classList.toggle('card-flip');
+        });
         reshuffleCards();
+
+        // return () => {
+        //   [...document.querySelectorAll('.card')].forEach((card) => {
+        //     const innerCard = card.querySelector('.card-inner');
+        //     innerCard.classList.remove('card-flip');
+        //   });
+        // };
       }
     });
   }, []);
@@ -40,7 +53,10 @@ export function Card() {
     <>
       {cards.map((card) => (
         <div className="card">
-          <img className="card-images" src={card.images.png}></img>
+          <div className="card-inner">
+            <img className="card-front" src={card.images.png}></img>
+            <img className="card-back"></img>
+          </div>
         </div>
       ))}
     </>
