@@ -3,10 +3,21 @@ import DeckOfCards from '../containers/deckOfCards';
 
 export function Card() {
   const [cards, updateCards] = useState([]);
-  const [flip, setFlip] = useState(false);
+  const [front, setFront] = useState(false);
+  const [back, setBack] = useState(false);
+
+  function handleClick() {
+    console.log('Flipped ...');
+    const cardElements = [...document.querySelectorAll('.card')];
+    cardElements.forEach((card) => {
+      const innerCard = card.querySelector('.card-inner');
+      innerCard.classList.add('card-flip');
+    });
+  }
 
   // Runs one time when a component is mounted
   useEffect(() => {
+    console.log('Mounted ...');
     const fetchCards = async () => {
       DeckOfCards.deckId = await DeckOfCards.getNewDeck();
       const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
@@ -15,15 +26,8 @@ export function Card() {
     fetchCards();
   }, []);
 
+  // Runs everytime page renders
   useEffect(() => {
-    const reshuffleCards = async () => {
-      console.log('Reshuffling');
-      await DeckOfCards.reshuffleCards(DeckOfCards.deckId);
-      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
-      console.log(drawnCards);
-      updateCards(drawnCards);
-    };
-
     const handler = (e) => {
       if (e.target.matches('.card-front') || e.target.matches('.card-back')) {
         const playSound = () => {
@@ -32,37 +36,42 @@ export function Card() {
         };
         playSound();
         handleClick();
-        if (DeckOfCards.deckId) {
-          reshuffleCards();
-        }
+        setTimeout(() => {
+          setFront(!front);
+        }, 2000);
       }
     };
     document.addEventListener('click', handler);
-
+    console.log('Click handler ...');
     return () => {
-      console.log('Cleaning up');
       document.removeEventListener('click', handler);
     };
-  }, []);
+  });
 
-  function handleClick() {
-    console.log('Flipped');
-    const cardElements = [...document.querySelectorAll('.card')];
-    cardElements.forEach((card) => {
-      const innerCard = card.querySelector('.card-inner');
-      innerCard.classList.remove('card-reflip');
-      innerCard.classList.toggle('card-flip');
-    });
-  }
-
+  // Flip back only after cards have been updated
   useEffect(() => {
+    console.log('Flip back ...');
     const cardElements = [...document.querySelectorAll('.card')];
     cardElements.forEach((card) => {
       const innerCard = card.querySelector('.card-inner');
       innerCard.classList.remove('card-flip');
-      innerCard.classList.toggle('card-reflip');
     });
-  }, [cards]);
+  }, [back]);
+
+  // Reshuffle cards when a user clicks on any of the cards
+  useEffect(() => {
+    const reshuffleCards = async () => {
+      await DeckOfCards.reshuffleCards(DeckOfCards.deckId);
+      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
+      updateCards(drawnCards);
+    };
+
+    if (DeckOfCards.deckId) {
+      reshuffleCards().then(() => {
+        setBack(!back);
+      });
+    }
+  }, [front]);
 
   return (
     <>
