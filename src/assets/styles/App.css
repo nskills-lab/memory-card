@@ -20,12 +20,12 @@ body {
 
 #game-container {
   margin: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
   background-color: #18181b;
 }
 
@@ -78,22 +78,16 @@ body {
 
 .card-front,
 .card-back {
+  width: 260px;
+  height: 350px;
+  border-radius: 0.5rem;
   position: absolute;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
 }
 
-.card-front {
-  width: 260px;
-  height: 350px;
-  border-radius: 0.5rem;
-}
-
 /** By default hidden **/
 .card-back {
-  width: 260px;
-  height: 350px;
   content: url('./card-design.jpg');
-  border-radius: 0.5rem;
   transform: rotateY(180deg);
 }
