@@ -22,6 +22,10 @@ function App() {
   return (
     <div id="game-container">
       <div id="title"> Memory Card Game</div>
+      <div id="score-board">
+        <div id="best">Best score</div>
+        <div id="current">Current score</div>
+      </div>
       <Board></Board>
     </div>
   );

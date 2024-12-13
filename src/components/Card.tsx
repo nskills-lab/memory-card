@@ -16,6 +16,11 @@ export function Card() {
     });
   }
 
+  const playSound = () => {
+    const audio = document.querySelector('#audio');
+    audio.play();
+  };
+
   // Runs one time when a component is mounted
   useEffect(() => {
     console.log('Mounted ...');
@@ -31,10 +36,6 @@ export function Card() {
   useEffect(() => {
     const handler = (e) => {
       if (e.target.matches('.card-front') || e.target.matches('.card-back')) {
-        const playSound = () => {
-          const audio = document.querySelector('#audio');
-          audio.play();
-        };
         playSound();
         handleClick();
         setTimeout(() => {
@@ -53,6 +54,7 @@ export function Card() {
   useEffect(() => {
     console.log('Flip back ...');
     const cardElements = [...document.querySelectorAll('.card')];
+    playSound();
     cardElements.forEach((card) => {
       const innerCard = card.querySelector('.card-inner');
       innerCard.classList.remove('card-flip');

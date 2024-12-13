@@ -33,9 +33,23 @@ body {
   width: 100vw;
   height: 100px;
   display: flex;
+  padding-top: 20px;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
+  font-size: 2.2rem;
+  letter-spacing: 0.2rem;
+}
+
+#score-board {
+  margin-top: 30px;
+  width: 250px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 0.9rem;
+  letter-spacing: 0.1rem;
 }
 
 #board {
