@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import DeckOfCards from '../containers/deckOfCards';
+import { DrawnCard } from './types';
 
 export function Card() {
   const [cards, updateCards] = useState([]);
@@ -26,7 +27,7 @@ export function Card() {
     fetchCards();
   }, []);
 
-  // Runs everytime page renders
+  // Runs everytime a page renders
   useEffect(() => {
     const handler = (e) => {
       if (e.target.matches('.card-front') || e.target.matches('.card-back')) {
@@ -48,7 +49,7 @@ export function Card() {
     };
   });
 
-  // Flip back only after cards have been updated
+  // Flip back only after all the cards have been updated
   useEffect(() => {
     console.log('Flip back ...');
     const cardElements = [...document.querySelectorAll('.card')];
@@ -75,7 +76,7 @@ export function Card() {
 
   return (
     <>
-      {cards.map((card) => (
+      {cards.map((card: DrawnCard) => (
         <div className="card">
           <div className="card-inner">
             <img className="card-front" src={card.image}></img>

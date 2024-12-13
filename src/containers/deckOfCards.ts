@@ -21,8 +21,9 @@ export default class DeckOfCards {
     if (!res.ok) {
       throw new Error('HTTP status ' + res.status);
     }
-
-    return (await res.json()).cards;
+    const cards = (await res.json()).cards;
+    console.log(cards);
+    return cards;
   }
 
   static async reshuffleCards(deckId: string) {
