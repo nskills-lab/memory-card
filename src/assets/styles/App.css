@@ -32,14 +32,19 @@ body {
 }
 
 #title {
+  padding-top: 10px;
   width: 100vw;
   height: 100px;
   display: flex;
-  padding-top: 20px;
   justify-content: center;
   align-items: center;
-  font-size: 2.2rem;
+  font-size: 3rem;
   letter-spacing: 0.2rem;
+  perspective: 70px;
+}
+
+#title > p {
+  transform: rotateX(-10deg);
 }
 
 #header {
@@ -80,7 +85,7 @@ body {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-rows: repeat(2, 310px);
+  grid-template-rows: repeat(2, 300px);
   grid-template-columns: repeat(5, 220px);
 }
 
