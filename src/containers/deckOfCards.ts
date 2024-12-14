@@ -4,7 +4,7 @@ export default class DeckOfCards {
   static deckId: string;
   static async getNewDeck() {
     const resource =
-      deckOfCardsClient.baseEndpoint() + '/new/shuffle/?deck_count=10';
+      deckOfCardsClient.baseEndpoint() + '/new/shuffle/?deck_count=1';
 
     const res = await fetch(resource, { mode: 'cors' });
     if (!res.ok) {
@@ -16,13 +16,12 @@ export default class DeckOfCards {
 
   static async drawCards(deckId: string) {
     const resource =
-      deckOfCardsClient.baseEndpoint() + `/${deckId}/draw/?count=4`;
+      deckOfCardsClient.baseEndpoint() + `/${deckId}/draw/?count=10`;
     const res = await fetch(resource, { mode: 'cors' });
     if (!res.ok) {
       throw new Error('HTTP status ' + res.status);
     }
     const cards = (await res.json()).cards;
-    console.log(cards);
     return cards;
   }
 
