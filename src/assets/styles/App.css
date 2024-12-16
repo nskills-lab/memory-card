@@ -92,7 +92,6 @@ body {
 .card {
   width: var(--card-width);
   height: var(--card-height);
-  perspective: 1000px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,7 +106,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #18181b;
-  transition: transform 1s;
+  transition: transform 0.8s;
   transform-style: preserve-3d;
 }
 
