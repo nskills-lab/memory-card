@@ -3,6 +3,8 @@ import { Card } from './Card';
 import DeckOfCards from '../containers/deckOfCards';
 import { DrawnCard } from './types';
 import { ScoreBoard } from './ScoreBoard';
+import useSound from 'use-sound';
+import mySound from '../assets/styles/whoosh-sound.mp3';
 
 export function Board() {
   const [cards, setCards] = useState([]);
@@ -11,6 +13,7 @@ export function Board() {
   const [clickedCards, setClickedCards] = useState([]);
   const [current, setCurrentScore] = useState(0);
   const [best, setBestScore] = useState(0);
+  const [playSound] = useSound(mySound);
 
   const handleClick = () => {
     console.log('Flipped ...');
@@ -19,11 +22,6 @@ export function Board() {
       const innerCard = card.querySelector('.card-inner');
       innerCard?.classList.add('card-flip');
     });
-  };
-
-  const playSound = () => {
-    const audio = document.querySelector('#audio');
-    audio.play();
   };
 
   // Runs one time when a component is mounted
@@ -48,12 +46,12 @@ export function Board() {
           console.log('You lost');
           return;
         }
+        playSound();
         setClickedCards((clickedCards) => {
           return [...clickedCards, e.target.dataset.id];
         });
         setCurrentScore((score) => score + 1);
         console.log(clickedCards);
-        playSound();
         handleClick();
         setTimeout(() => {
           setFront(!front);
@@ -63,6 +61,7 @@ export function Board() {
     document.addEventListener('click', handler);
     console.log('Click handler ...');
     return () => {
+      console.log('Return ...');
       document.removeEventListener('click', handler);
     };
   });

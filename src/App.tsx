@@ -9,7 +9,6 @@ import { Board } from './components/Board';
  * -  Add short game instructions
  * -  Fix Typescript mistakes
  * -  Have the game published in github pages
- * - add github action to rebuild everytime i push to main branch
  *
  */
 
