@@ -1,7 +1,8 @@
 :root {
   --main-box-shadow: #030712 1px 10px 27px -9px, #fed7aa 1px 4px 10px -1px;
-  --card-width: 180px;
-  --card-height: 250px;
+  --card-width: 160px;
+  --card-height: 210px;
+  --main-dark-color: #18181b;
 }
 
 @font-face {
@@ -18,10 +19,11 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'BungeeSpice';
-  background-color: #18181b;
+  background-color: var(--main-dark-color);
 }
 
 #game-container {
+  position: relative;
   margin: 0;
   width: 100vw;
   height: 100vh;
@@ -29,6 +31,53 @@ body {
   flex-direction: column;
   justify-content: stretch;
   align-items: center;
+  z-index: 1;
+}
+
+#game-over-modal {
+  position: absolute;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: 'BungeeSpice';
+  background-color: var(--main-dark-color);
+  z-index: 3;
+}
+
+#game-over-modal.active {
+  display: flex;
+}
+
+#game-over-modal > div {
+  width: 500px;
+}
+
+#game-over-title {
+  font-size: 4rem;
+  text-align: center;
+}
+
+#game-over-btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+#game-over-btns > button {
+  font-size: 1.3rem;
+  font-family: inherit;
+  background-color: var(--main-dark-color);
+  width: 180px;
+  height: 55px;
+  box-shadow: var(--main-box-shadow);
+  border-radius: 0.8rem;
+}
+
+#game-over-btns > button:hover {
+  cursor: pointer;
 }
 
 #title {
@@ -44,19 +93,20 @@ body {
 }
 
 #title > p {
-  transform: rotateX(-10deg);
+  transform: rotateX(-15deg);
 }
 
 #header {
   width: 100vw;
+  height: 300px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 #rules-button {
   width: 100px;
   height: 30px;
-  background-color: #18181b;
+  background-color: var(--main-dark-color);
   font-family: 'BungeeSpice';
   font-size: 0.8rem;
   letter-spacing: 0.1rem;
@@ -85,8 +135,8 @@ body {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-rows: repeat(2, 300px);
-  grid-template-columns: repeat(5, 220px);
+  grid-template-rows: repeat(2, calc(var(--card-height) + 25px));
+  grid-template-columns: repeat(5, calc(var(--card-width) + 50px));
 }
 
 .card {

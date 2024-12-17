@@ -5,6 +5,7 @@ import { DrawnCard } from './types';
 import { ScoreBoard } from './ScoreBoard';
 import useSound from 'use-sound';
 import mySound from '../assets/styles/whoosh-sound.mp3';
+import { GameOverModal } from './GameOverModal';
 
 export function Board() {
   const [cards, setCards] = useState([]);
@@ -12,7 +13,9 @@ export function Board() {
   const [back, setBack] = useState(false);
   const [clickedCards, setClickedCards] = useState([]);
   const [current, setCurrentScore] = useState(0);
-  const [best, setBestScore] = useState(0);
+  const [best, setBestScore] = useState(
+    document.getElementById('best')?.dataset.value ?? '0'
+  );
   const [playSound] = useSound(mySound);
 
   const handleClick = () => {
@@ -40,10 +43,15 @@ export function Board() {
     const handler = (e) => {
       if (e.target.matches('.card-front') || e.target.matches('.card-back')) {
         if (clickedCards.includes(e.target.dataset.id)) {
-          if (current > best) {
-            setBestScore(current);
+          if (current > parseInt(best)) {
+            setBestScore(current.toString());
           }
           console.log('You lost');
+          console.log(best);
+          const modal = document.getElementById('game-over-modal');
+          modal?.classList.add('active');
+          setClickedCards([]);
+          setCurrentScore(0);
           return;
         }
         playSound();
@@ -102,6 +110,7 @@ export function Board() {
           <Card image={card.image} code={card.code}></Card>
         ))}
       </div>
+      <GameOverModal best={best}></GameOverModal>
     </>
   );
 }
