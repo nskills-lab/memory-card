@@ -14,8 +14,9 @@ export function Board() {
   const [clickedCards, setClickedCards] = useState([]);
   const [current, setCurrentScore] = useState(0);
   const [best, setBestScore] = useState(
-    document.getElementById('best')?.dataset.value ?? '0'
+    document.getElementById('best')?.dataset.value
   );
+  const [gameResult, setGameResult] = useState('You Won!');
   const [playSound] = useSound(mySound);
 
   const handleClick = () => {
@@ -46,8 +47,7 @@ export function Board() {
           if (current > parseInt(best)) {
             setBestScore(current.toString());
           }
-          console.log('You lost');
-          console.log(best);
+          setGameResult('You Lost!');
           const modal = document.getElementById('game-over-modal');
           modal?.classList.add('active');
           setClickedCards([]);
@@ -102,7 +102,6 @@ export function Board() {
   return (
     <>
       <div id="header">
-        <button id="rules-button">Rules</button>
         <ScoreBoard current={current} best={best}></ScoreBoard>
       </div>
       <div id="board">
@@ -110,7 +109,7 @@ export function Board() {
           <Card image={card.image} code={card.code}></Card>
         ))}
       </div>
-      <GameOverModal best={best}></GameOverModal>
+      <GameOverModal best={best} result={gameResult}></GameOverModal>
     </>
   );
 }

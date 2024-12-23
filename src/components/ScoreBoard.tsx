@@ -5,6 +5,9 @@ export function ScoreBoard({ best, current }) {
         Best score - {best}
       </div>
       <div id="current">Current score - {current}</div>
+      <progress max="10" value="1" className="progress-color">
+        10/10
+      </progress>
     </div>
   );
 }

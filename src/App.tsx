@@ -5,8 +5,7 @@ import { Board } from './components/Board';
  * Steps:
 
 
- * -  Way to restart the game
- * -  Add short game instructions
+ * -  Way to reset the score if a user quits the game
  * -  Fix Typescript mistakes
  * -  Have the game published in github pages
  *

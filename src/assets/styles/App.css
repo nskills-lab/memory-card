@@ -81,7 +81,8 @@ body {
 }
 
 #title {
-  padding-top: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   width: 100vw;
   height: 100px;
   display: flex;
@@ -89,7 +90,7 @@ body {
   align-items: center;
   font-size: 3rem;
   letter-spacing: 0.2rem;
-  perspective: 70px;
+  perspective: 100px;
 }
 
 #title > p {
@@ -98,24 +99,13 @@ body {
 
 #header {
   width: 100vw;
-  height: 300px;
+  height: 250px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
-#rules-button {
-  width: 100px;
-  height: 30px;
-  background-color: var(--main-dark-color);
-  font-family: 'BungeeSpice';
-  font-size: 0.8rem;
-  letter-spacing: 0.1rem;
-  box-shadow: var(--main-box-shadow);
-  border: 0.2rem;
-}
-
-#rules-button:hover {
-  cursor: pointer;
+.progress-color {
+  accent-color: rgb(255, 115, 0);
 }
 
 #score-board {
@@ -125,8 +115,8 @@ body {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  font-size: 0.8rem;
-  letter-spacing: 0.1rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.07rem;
 }
 
 #board {
