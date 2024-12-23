@@ -104,6 +104,12 @@ body {
   justify-content: space-around;
 }
 
+#game-progress {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .progress-color {
   accent-color: rgb(255, 115, 0);
 }

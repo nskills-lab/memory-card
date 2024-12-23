@@ -13,8 +13,9 @@ export function Board() {
   const [back, setBack] = useState(false);
   const [clickedCards, setClickedCards] = useState([]);
   const [current, setCurrentScore] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [best, setBestScore] = useState(
-    document.getElementById('best')?.dataset.value
+    document.getElementById('best')?.dataset.value ?? '0'
   );
   const [gameResult, setGameResult] = useState('You Won!');
   const [playSound] = useSound(mySound);
@@ -39,27 +40,39 @@ export function Board() {
     fetchCards();
   }, []);
 
+  const resetTracks = () => {
+    setClickedCards([]);
+    setCurrentScore(0);
+    setProgress(0);
+    if (current > parseInt(best)) {
+      setBestScore(current.toString());
+    }
+  };
+  const showGameResult = (result) => {
+    setGameResult(result);
+    const modal = document.getElementById('game-over-modal');
+    modal?.classList.add('active');
+  };
   // Runs everytime a page renders
   useEffect(() => {
     const handler = (e) => {
+      setProgress((progress) => progress + 1);
       if (e.target.matches('.card-front') || e.target.matches('.card-back')) {
         if (clickedCards.includes(e.target.dataset.id)) {
-          if (current > parseInt(best)) {
-            setBestScore(current.toString());
-          }
-          setGameResult('You Lost!');
-          const modal = document.getElementById('game-over-modal');
-          modal?.classList.add('active');
-          setClickedCards([]);
-          setCurrentScore(0);
+          showGameResult('You Lost!');
+          resetTracks();
           return;
         }
         playSound();
+        if (progress > 4) {
+          showGameResult('You Won!');
+          resetTracks();
+          return;
+        }
         setClickedCards((clickedCards) => {
           return [...clickedCards, e.target.dataset.id];
         });
         setCurrentScore((score) => score + 1);
-        console.log(clickedCards);
         handleClick();
         setTimeout(() => {
           setFront(!front);
@@ -102,7 +115,11 @@ export function Board() {
   return (
     <>
       <div id="header">
-        <ScoreBoard current={current} best={best}></ScoreBoard>
+        <ScoreBoard
+          current={current}
+          best={best}
+          progress={progress}
+        ></ScoreBoard>
       </div>
       <div id="board">
         {cards.map((card: DrawnCard) => (
