@@ -56,8 +56,8 @@ export function Board() {
   // Runs everytime a page renders
   useEffect(() => {
     const handler = (e) => {
-      setProgress((progress) => progress + 1);
       if (e.target.matches('.card-front') || e.target.matches('.card-back')) {
+        setProgress((progress) => progress + 1);
         if (clickedCards.includes(e.target.dataset.id)) {
           showGameResult('You Lost!');
           resetTracks();
@@ -126,6 +126,7 @@ export function Board() {
           <Card image={card.image} code={card.code}></Card>
         ))}
       </div>
+      <div id="game-instruction">?</div>
       <GameOverModal best={best} result={gameResult}></GameOverModal>
     </>
   );
