@@ -7,19 +7,20 @@ import useSound from 'use-sound';
 import mySound from '../assets/styles/whoosh-sound.mp3';
 import { GameOverModal } from './GameOverModal';
 
-export function Board() {
+export function Board({
+  current,
+  best,
+  progress,
+  setBestScore,
+  setCurrentScore,
+  setProgress,
+  setGameResult,
+}) {
   const [cards, setCards] = useState([]);
   const [front, setFront] = useState(false);
   const [back, setBack] = useState(false);
   const [clickedCards, setClickedCards] = useState([]);
-  const [current, setCurrentScore] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [best, setBestScore] = useState(
-    document.getElementById('best')?.dataset.value ?? '0'
-  );
-  const [gameResult, setGameResult] = useState('You Won!');
   const [playSound] = useSound(mySound);
-
   const handleClick = () => {
     console.log('Flipped ...');
     const cardElements = [...document.querySelectorAll('.card')];
@@ -37,13 +38,12 @@ export function Board() {
       setBestScore(current.toString());
     }
   };
+
   const showGameResult = (result) => {
     setGameResult(result);
     const modal = document.getElementById('game-over-modal');
     modal?.classList.add('active');
   };
-
-  const handleGameInstruction = () => {};
 
   // Runs one time when a component is mounted
   useEffect(() => {
@@ -67,7 +67,7 @@ export function Board() {
           return;
         }
         playSound();
-        if (progress > 4) {
+        if (progress > 5) {
           showGameResult('You Won!');
           resetTracks();
           return;
@@ -117,19 +117,11 @@ export function Board() {
   }, [front]);
   return (
     <>
-      <div id="header">
-        <ScoreBoard
-          current={current}
-          best={best}
-          progress={progress}
-        ></ScoreBoard>
-      </div>
       <div id="board">
         {cards.map((card: DrawnCard) => (
           <Card image={card.image} code={card.code}></Card>
         ))}
       </div>
-      <GameOverModal best={best} result={gameResult}></GameOverModal>
     </>
   );
 }

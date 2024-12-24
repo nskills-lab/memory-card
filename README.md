@@ -13,4 +13,4 @@ Don't click on the same card twice!
 
 ## Acknowledgements
 
-<a target="_blank" href="https://icons8.com/icon/DgSe9XMxNgsA/joker">Joker icon on tab</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+<a target="_blank" href="https://icons8.com/icon/DgSe9XMxNgsA/joker">Joker</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>

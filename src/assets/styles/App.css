@@ -89,7 +89,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3rem;
+  font-size: 3.2rem;
   letter-spacing: 0.2rem;
   perspective: 100px;
 }
@@ -98,11 +98,16 @@ body {
   transform: rotateX(-15deg);
 }
 
-#header {
+#score-board {
   width: 100vw;
-  height: 250px;
+  height: 150px;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  align-items: center;
+  font-size: 0.85rem;
+  letter-spacing: 0.06rem;
+  margin-bottom: 30px;
 }
 
 #game-progress {
@@ -113,17 +118,6 @@ body {
 
 .progress-color {
   accent-color: rgb(255, 115, 0);
-}
-
-#score-board {
-  width: 250px;
-  height: 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 0.9rem;
-  letter-spacing: 0.07rem;
 }
 
 #board {
