@@ -7,7 +7,6 @@ import { Board } from './components/Board';
 
  * -  Way to reset the score if a user quits the game
  * -  Fix Typescript mistakes
- * -  Have the game published in github pages
  *
  */
 

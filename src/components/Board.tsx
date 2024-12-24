@@ -29,17 +29,6 @@ export function Board() {
     });
   };
 
-  // Runs one time when a component is mounted
-  useEffect(() => {
-    console.log('Mounted ...');
-    const fetchCards = async () => {
-      DeckOfCards.deckId = await DeckOfCards.getNewDeck();
-      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
-      setCards(drawnCards);
-    };
-    fetchCards();
-  }, []);
-
   const resetTracks = () => {
     setClickedCards([]);
     setCurrentScore(0);
@@ -53,6 +42,20 @@ export function Board() {
     const modal = document.getElementById('game-over-modal');
     modal?.classList.add('active');
   };
+
+  const handleGameInstruction = () => {};
+
+  // Runs one time when a component is mounted
+  useEffect(() => {
+    console.log('Mounted ...');
+    const fetchCards = async () => {
+      DeckOfCards.deckId = await DeckOfCards.getNewDeck();
+      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
+      setCards(drawnCards);
+    };
+    fetchCards();
+  }, []);
+
   // Runs everytime a page renders
   useEffect(() => {
     const handler = (e) => {
@@ -126,7 +129,6 @@ export function Board() {
           <Card image={card.image} code={card.code}></Card>
         ))}
       </div>
-      <div id="game-instruction">?</div>
       <GameOverModal best={best} result={gameResult}></GameOverModal>
     </>
   );
