@@ -3,7 +3,6 @@
   --card-width: 160px;
   --card-height: 210px;
   --main-dark-color: #18181b;
-  --overlay-z-index: 2;
 }
 
 @font-face {
@@ -46,7 +45,7 @@ body {
   align-items: center;
   font-family: 'BungeeSpice';
   background-color: var(--main-dark-color);
-  z-index: var(--overlay-z-index);
+  z-index: 2;
 }
 
 #game-over-modal.active {

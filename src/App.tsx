@@ -12,7 +12,7 @@ import { ScoreBoard } from './components/ScoreBoard';
 
 function App() {
   const [best, setBestScore] = useState(
-    document.getElementById('best')?.dataset.value ?? '0'
+    document.getElementById('best')?.dataset.value || '0'
   );
   const [gameResult, setGameResult] = useState('You Won!');
   const [current, setCurrentScore] = useState(0);
@@ -23,23 +23,23 @@ function App() {
         <p> Memory Card Game</p>
       </div>
       <ScoreBoard
-        current={current}
         best={best}
+        current={current}
         progress={progress}
       ></ScoreBoard>
       <Board
-        current={current}
         best={best}
+        current={current}
         progress={progress}
         setBestScore={setBestScore}
-        setGameResult={setGameResult}
         setCurrentScore={setCurrentScore}
         setProgress={setProgress}
+        setGameResult={setGameResult}
       ></Board>
       <GameOverModal
         best={best}
-        result={gameResult}
         setBestScore={setBestScore}
+        result={gameResult}
       ></GameOverModal>
     </div>
   );
