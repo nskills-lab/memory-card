@@ -1,7 +1,8 @@
-export function ScoreBoard({ best, current, progress }) {
+import { GameStats } from './types';
+export function ScoreBoard({ best, current, progress }: GameStats) {
   return (
     <div id="score-board">
-      <div id="best" data-value="0">
+      <div id="best" data-value={best}>
         Best score - {best}
       </div>
       <div id="current">Current score - {current}</div>

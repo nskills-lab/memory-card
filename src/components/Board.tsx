@@ -79,7 +79,7 @@ export function Board({
         handleClick();
         setTimeout(() => {
           setFront(!front);
-        }, 2000);
+        }, 1000);
       }
     };
     document.addEventListener('click', handler);
