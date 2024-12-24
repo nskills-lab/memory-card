@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 import { Card } from './Card';
 import DeckOfCards from '../containers/deckOfCards';
 import { DrawnCard } from './types';
-import { ScoreBoard } from './ScoreBoard';
 import useSound from 'use-sound';
 import mySound from '../assets/styles/whoosh-sound.mp3';
-import { GameOverModal } from './GameOverModal';
 
 export function Board({
   current,
@@ -39,7 +37,7 @@ export function Board({
     }
   };
 
-  const showGameResult = (result) => {
+  const showGameResult = (result: string) => {
     setGameResult(result);
     const modal = document.getElementById('game-over-modal');
     modal?.classList.add('active');
@@ -75,7 +73,7 @@ export function Board({
         setClickedCards((clickedCards) => {
           return [...clickedCards, e.target.dataset.id];
         });
-        setCurrentScore((score) => score + 1);
+        setCurrentScore((score: number) => score + 1);
         handleClick();
         setTimeout(() => {
           setFront(!front);

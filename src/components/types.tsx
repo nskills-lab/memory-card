@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export type DrawnCard = {
   code: string;
   image: string;
@@ -10,7 +12,20 @@ export type DrawnCard = {
 };
 
 export type GameStats = {
-  best: string;
-  current: string;
-  progress: string;
+  best: string | number;
+  current: string | number;
+  progress: string | number;
+  result?: string;
+};
+
+export type SetFunction = (value: string | number) => void;
+
+export type FinalStat = {
+  latestBestScore: string | number;
+  gameResult: string;
+};
+
+export type Props<T> = {
+  values: T;
+  setFunction: Dispatch<SetStateAction<string>>;
 };

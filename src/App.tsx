@@ -3,6 +3,7 @@ import './assets/styles/App.css';
 import { Board } from './components/Board';
 import { GameOverModal } from './components/GameOverModal';
 import { ScoreBoard } from './components/ScoreBoard';
+import { FinalStat } from './components/types';
 
 /**
  * Steps:
@@ -17,6 +18,12 @@ function App() {
   const [gameResult, setGameResult] = useState('You Won!');
   const [current, setCurrentScore] = useState(0);
   const [progress, setProgress] = useState(0);
+
+  const finalStat: FinalStat = {
+    latestBestScore: best,
+    gameResult: gameResult,
+  };
+
   return (
     <div id="game-container">
       <div id="title">
@@ -37,9 +44,8 @@ function App() {
         setGameResult={setGameResult}
       ></Board>
       <GameOverModal
-        best={best}
-        setBestScore={setBestScore}
-        result={gameResult}
+        values={finalStat}
+        setFunction={setBestScore}
       ></GameOverModal>
     </div>
   );
