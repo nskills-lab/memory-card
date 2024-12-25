@@ -168,6 +168,10 @@ body {
   backface-visibility: hidden;
 }
 
+.card-back:hover {
+  cursor: none;
+}
+
 /** By default hidden **/
 .card-back {
   content: url('./card-design.jpg');

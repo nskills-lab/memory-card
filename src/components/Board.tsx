@@ -1,25 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Card } from './Card';
 import DeckOfCards from '../containers/deckOfCards';
-import { DrawnCard } from './types';
+import { DrawnCard, GameStats, Props } from './types';
 import useSound from 'use-sound';
 import mySound from '../assets/styles/whoosh-sound.mp3';
 
-export function Board({
-  current,
-  best,
-  progress,
-  setBestScore,
-  setCurrentScore,
-  setProgress,
-  setGameResult,
-}) {
+export function Board({ values, setFunctions }: Props<GameStats>) {
   const [cards, setCards] = useState([]);
   const [front, setFront] = useState(false);
   const [back, setBack] = useState(false);
-  const [clickedCards, setClickedCards] = useState([]);
+  const [clickedCards, setClickedCards] = useState<Array<string | undefined>>(
+    []
+  );
+  const { best, current, progress } = values;
+  const [setBestScore, setCurrentScore, setProgress, setGameResult] =
+    setFunctions;
+
   const [playSound] = useSound(mySound);
-  const handleClick = () => {
+
+  const flipCardsFaceDown = () => {
     console.log('Flipped ...');
     const cardElements = [...document.querySelectorAll('.card')];
     cardElements.forEach((card) => {
@@ -29,18 +28,24 @@ export function Board({
   };
 
   const resetTracks = () => {
-    setClickedCards([]);
-    setCurrentScore(0);
-    setProgress(0);
-    if (current > parseInt(best)) {
-      setBestScore(current.toString());
+    const convertedBest = parseInt(best);
+    const covertedCurrent = parseInt(current);
+    if (covertedCurrent > convertedBest) {
+      setBestScore(String(covertedCurrent));
     }
+    setClickedCards([]);
+    setCurrentScore('0');
+    setProgress('0');
   };
 
   const showGameResult = (result: string) => {
     setGameResult(result);
     const modal = document.getElementById('game-over-modal');
     modal?.classList.add('active');
+  };
+
+  const reachedLimit = (progress: string) => {
+    return parseInt(progress) + 1 > 7;
   };
 
   // Runs one time when a component is mounted
@@ -56,30 +61,46 @@ export function Board({
 
   // Runs everytime a page renders
   useEffect(() => {
-    const handler = (e) => {
-      if (e.target.matches('.card-front') || e.target.matches('.card-back')) {
-        setProgress((progress) => progress + 1);
-        if (clickedCards.includes(e.target.dataset.id)) {
-          showGameResult('You Lost!');
-          resetTracks();
-          return;
-        }
-        playSound();
-        if (progress > 5) {
-          showGameResult('You Won!');
-          resetTracks();
-          return;
-        }
-        setClickedCards((clickedCards) => {
-          return [...clickedCards, e.target.dataset.id];
-        });
-        setCurrentScore((score: number) => score + 1);
-        handleClick();
-        setTimeout(() => {
-          setFront(!front);
-        }, 1000);
+    const handler = (e: Event) => {
+      const target = e.target as HTMLElement;
+      // Only flip if a user has
+      if (!target.matches('.card-front')) return;
+
+      if (clickedCards.includes(target.dataset.id)) {
+        showGameResult('You Lost!');
+        resetTracks();
+        return;
       }
+
+      setProgress((progress) => {
+        const convertedProgress = parseInt(progress);
+        return String(convertedProgress + 1);
+      });
+
+      playSound();
+
+      setCurrentScore((score) => {
+        const covertedScore = parseInt(score);
+        return String(covertedScore + 1);
+      });
+
+      if (reachedLimit(progress)) {
+        showGameResult('You Won!');
+        resetTracks();
+        return;
+      }
+
+      setClickedCards((clickedCards) => {
+        return [...clickedCards, target.dataset.id];
+      });
+
+      console.log('current', progress);
+      flipCardsFaceDown();
+      setTimeout(() => {
+        setFront(!front);
+      }, 1000);
     };
+
     document.addEventListener('click', handler);
     console.log('Click handler ...');
     return () => {
@@ -113,6 +134,7 @@ export function Board({
       });
     }
   }, [front]);
+
   return (
     <>
       <div id="board">

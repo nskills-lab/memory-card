@@ -1,21 +1,25 @@
 import { Props } from './types';
 import { FinalStat } from './types';
 
-export function GameOverModal({ values, setFunction }: Props<FinalStat>) {
-  const handleClicks = (e) => {
-    if (e.target.matches('#quit-btn')) {
-      document.getElementById('best').dataset.value = '0';
-      setFunction('0');
+export function GameOverModal({ values, setFunctions }: Props<FinalStat>) {
+  const handleClicks = (e: React.MouseEvent) => {
+    const bestScoreElement = document.getElementById('best')!;
+    const target = e.target as Element;
+    const [setBestScore] = setFunctions;
+    if (target.matches('#quit-btn')) {
+      bestScoreElement.dataset.value = '0';
+      setBestScore('0');
     }
-    if (e.target.matches('#play-btn')) {
-      document.getElementById('best').dataset.value = values.latestBestScore;
+    if (target.matches('#play-btn')) {
+      console.log(values.latestBestScore);
+      bestScoreElement.dataset.value = values.latestBestScore;
     }
     const modal = document.getElementById('game-over-modal');
     modal?.classList.remove('active');
   };
   return (
     <div id="game-over-modal">
-      <div id="game-over-title">{values.latestBestScore}</div>
+      <div id="game-over-title">{values.gameResult}</div>
       <div id="game-over-btns">
         <button id="play-btn" onClick={handleClicks}>
           Play Again

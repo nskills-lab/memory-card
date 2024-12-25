@@ -12,20 +12,17 @@ export type DrawnCard = {
 };
 
 export type GameStats = {
-  best: string | number;
-  current: string | number;
-  progress: string | number;
-  result?: string;
+  best: string;
+  current: string;
+  progress: string;
 };
 
-export type SetFunction = (value: string | number) => void;
-
 export type FinalStat = {
-  latestBestScore: string | number;
+  latestBestScore: string;
   gameResult: string;
 };
 
 export type Props<T> = {
   values: T;
-  setFunction: Dispatch<SetStateAction<string>>;
+  setFunctions: Array<Dispatch<SetStateAction<string>>>;
 };
