@@ -5,12 +5,6 @@ import { GameOverModal } from './components/GameOverModal';
 import { ScoreBoard } from './components/ScoreBoard';
 import { FinalStat, GameStats } from './components/types';
 
-/**
- * Steps:
- * -  Fix Typescript mistakes
- * - Clean up, remove duplication, basically make it better
- */
-
 function App() {
   const [best, setBestScore] = useState(
     document.getElementById('best')?.dataset.value || '0'

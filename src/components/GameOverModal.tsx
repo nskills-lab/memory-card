@@ -11,7 +11,6 @@ export function GameOverModal({ values, setFunctions }: Props<FinalStat>) {
       setBestScore('0');
     }
     if (target.matches('#play-btn')) {
-      console.log(values.latestBestScore);
       bestScoreElement.dataset.value = values.latestBestScore;
     }
     const modal = document.getElementById('game-over-modal');

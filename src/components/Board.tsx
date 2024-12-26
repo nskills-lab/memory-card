@@ -19,7 +19,6 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   const [playSound] = useSound(mySound);
 
   const flipCardsFaceDown = () => {
-    console.log('Flipped ...');
     const cardElements = [...document.querySelectorAll('.card')];
     cardElements.forEach((card) => {
       const innerCard = card.querySelector('.card-inner');
@@ -50,7 +49,6 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
 
   // Runs one time when a component is mounted
   useEffect(() => {
-    console.log('Mounted ...');
     const fetchCards = async () => {
       DeckOfCards.deckId = await DeckOfCards.getNewDeck();
       const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
@@ -94,7 +92,6 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
         return [...clickedCards, target.dataset.id];
       });
 
-      console.log('current', progress);
       flipCardsFaceDown();
       setTimeout(() => {
         setFront(!front);
@@ -102,16 +99,13 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
     };
 
     document.addEventListener('click', handler);
-    console.log('Click handler ...');
     return () => {
-      console.log('Return ...');
       document.removeEventListener('click', handler);
     };
   });
 
   // Flip back only after all the cards have been updated
   useEffect(() => {
-    console.log('Flip back ...');
     const cardElements = [...document.querySelectorAll('.card')];
     playSound();
     cardElements.forEach((card) => {
