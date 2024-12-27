@@ -130,8 +130,8 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   return (
     <>
       <div id="board">
-        {cards.map((card: DrawnCard) => (
-          <Card image={card.image} code={card.code}></Card>
+        {cards.map((card: DrawnCard, index: number) => (
+          <Card key={index} image={card.image} code={card.code}></Card>
         ))}
       </div>
     </>
