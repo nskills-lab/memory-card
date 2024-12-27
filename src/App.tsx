@@ -29,11 +29,7 @@ function App() {
       <div id="title">
         <p> Memory Card Game</p>
       </div>
-      <ScoreBoard
-        best={best}
-        current={current}
-        progress={progress}
-      ></ScoreBoard>
+      <ScoreBoard {...gameStats}></ScoreBoard>
       <Board
         values={gameStats}
         setFunctions={[
