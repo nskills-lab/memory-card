@@ -8,11 +8,11 @@ export function GameOverModal({ values, setFunctions }: Props<FinalStat>) {
     const [setBestScore] = setFunctions;
     if (target.matches('#quit-btn')) {
       bestScoreElement.dataset.value = '0';
-      setBestScore('0');
     }
     if (target.matches('#play-btn')) {
       bestScoreElement.dataset.value = values.latestBestScore;
     }
+    setBestScore(bestScoreElement.dataset.value ?? '0');
     const modal = document.getElementById('game-over-modal');
     modal?.classList.remove('active');
   };

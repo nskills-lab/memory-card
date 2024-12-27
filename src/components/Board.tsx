@@ -7,15 +7,14 @@ import mySound from '../assets/styles/whoosh-sound.mp3';
 
 export function Board({ values, setFunctions }: Props<GameStats>) {
   const [cards, setCards] = useState([]);
-  const [front, setFront] = useState(false);
-  const [back, setBack] = useState(false);
+  const [cardsFaceUp, setCardsFaceUp] = useState(false);
+  const [cardsFaceDown, setCardsFaceDown] = useState(false);
   const [clickedCards, setClickedCards] = useState<Array<string | undefined>>(
     []
   );
   const { best, current, progress } = values;
   const [setBestScore, setCurrentScore, setProgress, setGameResult] =
     setFunctions;
-
   const [playSound] = useSound(mySound);
 
   const flipCardsFaceDown = () => {
@@ -29,9 +28,8 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   const resetTracks = () => {
     const convertedBest = parseInt(best);
     const covertedCurrent = parseInt(current);
-    if (covertedCurrent > convertedBest) {
-      setBestScore(String(covertedCurrent));
-    }
+    const max = Math.max(covertedCurrent, convertedBest);
+    setBestScore(String(max));
     setClickedCards([]);
     setCurrentScore('0');
     setProgress('0');
@@ -94,7 +92,7 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
 
       flipCardsFaceDown();
       setTimeout(() => {
-        setFront(!front);
+        setCardsFaceUp(!cardsFaceUp);
       }, 1000);
     };
 
@@ -112,7 +110,7 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
       const innerCard = card.querySelector('.card-inner');
       innerCard?.classList.remove('card-flip');
     });
-  }, [back]);
+  }, [cardsFaceDown]);
 
   // Reshuffle cards when a user clicks on any of the cards
   useEffect(() => {
@@ -124,10 +122,10 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
 
     if (DeckOfCards.deckId) {
       reshuffleCards().then(() => {
-        setBack(!back);
+        setCardsFaceDown(!cardsFaceDown);
       });
     }
-  }, [front]);
+  }, [cardsFaceUp]);
 
   return (
     <>
