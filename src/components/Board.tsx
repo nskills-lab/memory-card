@@ -44,11 +44,14 @@ export function Board({
     setProgress('0');
   };
 
-  const showGameResult = (result: string) => {
-    gameResultRef.current = result;
-    const modal = document.getElementById('game-over-modal');
-    modal?.classList.add('active');
-  };
+  const handleGameResult = React.useCallback(
+    (result: string) => {
+      gameResultRef.current = result;
+      const modal = document.getElementById('game-over-modal');
+      modal?.classList.add('active');
+    },
+    [gameResultRef]
+  );
 
   const reachedLimit = (progress: string) => {
     return parseInt(progress) + 1 > 7;
@@ -72,7 +75,7 @@ export function Board({
       if (!target.matches('.card-front')) return;
 
       if (clickedCards.includes(target.dataset.id)) {
-        showGameResult('You Lost!');
+        handleGameResult('You Lost!');
         resetTracks();
         return;
       }
@@ -88,7 +91,7 @@ export function Board({
       });
 
       if (reachedLimit(values.progress)) {
-        showGameResult('You Won!');
+        handleGameResult('You Won!');
         resetTracks();
         return;
       }
