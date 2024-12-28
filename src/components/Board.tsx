@@ -18,15 +18,21 @@ export function Board({
   const [clickedCards, setClickedCards] = React.useState<
     Array<string | undefined>
   >([]);
-
-  const [setCurrentScore, setProgress] = setFunctions;
   const [playSound] = useSound(mySound);
+  const [setCurrentScore, setProgress] = setFunctions;
 
-  const flipCardsFaceDown = () => {
-    const cardElements = [...document.querySelectorAll('.card')];
+  const flipCards = (options: 'face up' | 'face down') => {
+    playSound();
+    const cardElements = [...document.querySelectorAll('.card-inner')];
     cardElements.forEach((card) => {
-      const innerCard = card.querySelector('.card-inner');
-      innerCard?.classList.add('card-flip');
+      switch (options) {
+        case 'face down':
+          card?.classList.add('card-flip');
+          break;
+        case 'face up':
+          card?.classList.remove('card-flip');
+          break;
+      }
     });
   };
 
@@ -62,7 +68,7 @@ export function Board({
   React.useEffect(() => {
     const handler = (e: Event) => {
       const target = e.target as HTMLElement;
-      // Only flip if a user has
+      // Only flip if a user has clicked when the cards are face up
       if (!target.matches('.card-front')) return;
 
       if (clickedCards.includes(target.dataset.id)) {
@@ -75,8 +81,6 @@ export function Board({
         const convertedProgress = parseInt(progress);
         return String(convertedProgress + 1);
       });
-
-      playSound();
 
       setCurrentScore((score) => {
         const covertedScore = parseInt(score);
@@ -93,7 +97,7 @@ export function Board({
         return [...clickedCards, target.dataset.id];
       });
 
-      flipCardsFaceDown();
+      flipCards('face down');
       setTimeout(() => {
         setCardsFaceUp(!cardsFaceUp);
       }, 1000);
@@ -105,14 +109,9 @@ export function Board({
     };
   });
 
-  // Flip back only after all the cards have been updated
+  // Flip cards face up only after all the them have been updated
   React.useEffect(() => {
-    const cardElements = [...document.querySelectorAll('.card')];
-    playSound();
-    cardElements.forEach((card) => {
-      const innerCard = card.querySelector('.card-inner');
-      innerCard?.classList.remove('card-flip');
-    });
+    flipCards('face up');
   }, [cardsFaceDown]);
 
   // Reshuffle cards when a user clicks on any of the cards
