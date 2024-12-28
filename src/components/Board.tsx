@@ -13,8 +13,8 @@ export function Board({
 }: Props<GameStats> & FinalStat) {
   const deckIdRef = React.useRef('');
   const [cards, setCards] = React.useState([]);
-  const [cardsFaceUp, setCardsFaceUp] = React.useState(false);
-  const [cardsFaceDown, setCardsFaceDown] = React.useState(false);
+  const [faceUp, setFaceUp] = React.useState(true);
+  const [faceDown, setFaceDown] = React.useState(false);
   const [clickedCards, setClickedCards] = React.useState<
     Array<string | undefined>
   >([]);
@@ -99,7 +99,7 @@ export function Board({
 
       flipCards('face down');
       setTimeout(() => {
-        setCardsFaceUp(!cardsFaceUp);
+        setFaceUp(!faceUp);
       }, 1000);
     };
 
@@ -109,10 +109,10 @@ export function Board({
     };
   });
 
-  // Flip cards face up only after all the them have been updated
+  // Flip face up only after all the cards have been updated
   React.useEffect(() => {
     flipCards('face up');
-  }, [cardsFaceDown]);
+  }, [faceDown]);
 
   // Reshuffle cards when a user clicks on any of the cards
   React.useEffect(() => {
@@ -124,10 +124,10 @@ export function Board({
 
     if (deckIdRef.current) {
       reshuffleCards().then(() => {
-        setCardsFaceDown(!cardsFaceDown);
+        setFaceDown(!faceDown);
       });
     }
-  }, [cardsFaceUp]);
+  }, [faceUp]);
 
   return (
     <>
