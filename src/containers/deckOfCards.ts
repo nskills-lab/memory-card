@@ -1,7 +1,6 @@
 import { deckOfCardsClient } from '../api/client/deckOfCards';
 
 export default class DeckOfCards {
-  static deckId: string;
   static async getNewDeck() {
     const resource =
       deckOfCardsClient.baseEndpoint() + '/new/shuffle/?deck_count=1';

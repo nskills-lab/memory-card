@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { Card } from './Card';
 import DeckOfCards from '../containers/deckOfCards';
 import { DrawnCard, GameStats, Props } from './types';
@@ -6,12 +6,13 @@ import useSound from 'use-sound';
 import mySound from '../assets/styles/whoosh-sound.mp3';
 
 export function Board({ values, setFunctions }: Props<GameStats>) {
-  const [cards, setCards] = useState([]);
-  const [cardsFaceUp, setCardsFaceUp] = useState(false);
-  const [cardsFaceDown, setCardsFaceDown] = useState(false);
-  const [clickedCards, setClickedCards] = useState<Array<string | undefined>>(
-    []
-  );
+  const deckIdRef = React.useRef('');
+  const [cards, setCards] = React.useState([]);
+  const [cardsFaceUp, setCardsFaceUp] = React.useState(false);
+  const [cardsFaceDown, setCardsFaceDown] = React.useState(false);
+  const [clickedCards, setClickedCards] = React.useState<
+    Array<string | undefined>
+  >([]);
   const { best, current, progress } = values;
   const [setBestScore, setCurrentScore, setProgress, setGameResult] =
     setFunctions;
@@ -46,17 +47,17 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   };
 
   // Runs one time when a component is mounted
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchCards = async () => {
-      DeckOfCards.deckId = await DeckOfCards.getNewDeck();
-      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
+      deckIdRef.current = await DeckOfCards.getNewDeck();
+      const drawnCards = await DeckOfCards.drawCards(deckIdRef.current);
       setCards(drawnCards);
     };
     fetchCards();
   }, []);
 
   // Runs everytime a page renders
-  useEffect(() => {
+  React.useEffect(() => {
     const handler = (e: Event) => {
       const target = e.target as HTMLElement;
       // Only flip if a user has
@@ -103,7 +104,7 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   });
 
   // Flip back only after all the cards have been updated
-  useEffect(() => {
+  React.useEffect(() => {
     const cardElements = [...document.querySelectorAll('.card')];
     playSound();
     cardElements.forEach((card) => {
@@ -113,14 +114,14 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   }, [cardsFaceDown]);
 
   // Reshuffle cards when a user clicks on any of the cards
-  useEffect(() => {
+  React.useEffect(() => {
     const reshuffleCards = async () => {
-      await DeckOfCards.reshuffleCards(DeckOfCards.deckId);
-      const drawnCards = await DeckOfCards.drawCards(DeckOfCards.deckId);
+      await DeckOfCards.reshuffleCards(deckIdRef.current);
+      const drawnCards = await DeckOfCards.drawCards(deckIdRef.current);
       setCards(drawnCards);
     };
 
-    if (DeckOfCards.deckId) {
+    if (deckIdRef.current) {
       reshuffleCards().then(() => {
         setCardsFaceDown(!cardsFaceDown);
       });
