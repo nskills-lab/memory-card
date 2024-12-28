@@ -1,11 +1,16 @@
 import React from 'react';
 import { Card } from './Card';
 import DeckOfCards from '../containers/deckOfCards';
-import { DrawnCard, GameStats, Props } from './types';
+import { DrawnCard, FinalStat, GameStats, Props } from './types';
 import useSound from 'use-sound';
 import mySound from '../assets/styles/whoosh-sound.mp3';
 
-export function Board({ values, setFunctions }: Props<GameStats>) {
+export function Board({
+  values,
+  setFunctions,
+  bestScoreRef,
+  gameResultRef,
+}: Props<GameStats> & FinalStat) {
   const deckIdRef = React.useRef('');
   const [cards, setCards] = React.useState([]);
   const [cardsFaceUp, setCardsFaceUp] = React.useState(false);
@@ -13,9 +18,8 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   const [clickedCards, setClickedCards] = React.useState<
     Array<string | undefined>
   >([]);
-  const { best, current, progress } = values;
-  const [setBestScore, setCurrentScore, setProgress, setGameResult] =
-    setFunctions;
+
+  const [setCurrentScore, setProgress] = setFunctions;
   const [playSound] = useSound(mySound);
 
   const flipCardsFaceDown = () => {
@@ -27,17 +31,15 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
   };
 
   const resetTracks = () => {
-    const convertedBest = parseInt(best);
-    const covertedCurrent = parseInt(current);
-    const max = Math.max(covertedCurrent, convertedBest);
-    setBestScore(String(max));
+    const max = Math.max(parseInt(values.current), bestScoreRef.current);
+    bestScoreRef.current = max;
     setClickedCards([]);
     setCurrentScore('0');
     setProgress('0');
   };
 
   const showGameResult = (result: string) => {
-    setGameResult(result);
+    gameResultRef.current = result;
     const modal = document.getElementById('game-over-modal');
     modal?.classList.add('active');
   };
@@ -81,7 +83,7 @@ export function Board({ values, setFunctions }: Props<GameStats>) {
         return String(covertedScore + 1);
       });
 
-      if (reachedLimit(progress)) {
+      if (reachedLimit(values.progress)) {
         showGameResult('You Won!');
         resetTracks();
         return;

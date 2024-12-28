@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import './assets/styles/App.css';
 import { Board } from './components/Board';
 import { GameOverModal } from './components/GameOverModal';
@@ -6,20 +6,18 @@ import { ScoreBoard } from './components/ScoreBoard';
 import { FinalStat, GameStats } from './components/types';
 
 function App() {
-  const [best, setBestScore] = useState(
-    document.getElementById('best')?.dataset.value || '0'
-  );
-  const [gameResult, setGameResult] = useState('You Won!');
-  const [current, setCurrentScore] = useState('0');
-  const [progress, setProgress] = useState('0');
+  const bestScoreRef = React.useRef(0);
+  const gameResultRef = React.useRef('Awaiting player!');
+  const [current, setCurrentScore] = React.useState('0');
+  const [progress, setProgress] = React.useState('0');
 
   const finalStat: FinalStat = {
-    latestBestScore: best,
-    gameResult: gameResult,
+    bestScoreRef: bestScoreRef,
+    gameResultRef: gameResultRef,
   };
 
   const gameStats: GameStats = {
-    best: best,
+    best: bestScoreRef.current,
     current: current,
     progress: progress,
   };
@@ -32,17 +30,10 @@ function App() {
       <ScoreBoard {...gameStats}></ScoreBoard>
       <Board
         values={gameStats}
-        setFunctions={[
-          setBestScore,
-          setCurrentScore,
-          setProgress,
-          setGameResult,
-        ]}
+        setFunctions={[setCurrentScore, setProgress]}
+        {...finalStat}
       ></Board>
-      <GameOverModal
-        values={finalStat}
-        setFunctions={[setBestScore]}
-      ></GameOverModal>
+      <GameOverModal {...finalStat}></GameOverModal>
     </div>
   );
 }

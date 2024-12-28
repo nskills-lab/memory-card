@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
 export type DrawnCard = {
   code: string;
@@ -12,17 +12,17 @@ export type DrawnCard = {
 };
 
 export type GameStats = {
-  best: string;
+  best: number;
   current: string;
   progress: string;
 };
 
 export type FinalStat = {
-  latestBestScore: string;
-  gameResult: string;
+  bestScoreRef: React.MutableRefObject<number>;
+  gameResultRef: React.MutableRefObject<string>;
 };
 
 export type Props<T> = {
   values: T;
-  setFunctions: Array<Dispatch<SetStateAction<string>>>;
+  setFunctions: Array<React.Dispatch<React.SetStateAction<string>>>;
 };
